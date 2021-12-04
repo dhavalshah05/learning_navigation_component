@@ -15,6 +15,10 @@
             android:id="@+id/navigateActionFirstScreenToSecondScreen"
             app:destination="@id/fragmentSecond" />
 
+        <action
+            android:id="@+id/navigateActionSelectAddress"
+            app:destination="@id/navigationGraphSelectAddress"/>
+
     </fragment>
 
     <fragment
@@ -34,5 +38,29 @@
         android:name="com.template.app.ui.third.ThirdFragment"
         android:label="Third Fragment"
         tools:layout="@layout/fragment_third" />
+
+    <navigation
+        android:id="@+id/navigationGraphSelectAddress"
+        app:startDestination="@id/fragmentSelectAddress">
+
+        <fragment
+            android:id="@+id/fragmentSelectAddress"
+            android:name="com.template.app.ui.address.select.SelectAddressFragment"
+            android:label="Select Address"
+            tools:layout="@layout/fragment_select_address">
+
+            <action
+                android:id="@+id/navigateActionSelectToEditScreen"
+                app:destination="@id/fragmentEditAddress" />
+
+        </fragment>
+
+        <fragment
+            android:id="@+id/fragmentEditAddress"
+            android:name="com.template.app.ui.address.edit.EditAddressFragment"
+            android:label="Edit Address"
+            tools:layout="@layout/fragment_edit_address" />
+
+    </navigation>
 
 </navigation>

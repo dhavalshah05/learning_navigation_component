@@ -35,6 +35,13 @@ class FirstFragment : BaseFragment() {
         binding.buttonNavigateToSecondScreen.setOnClickListener {
             navigateToSecondScreen()
         }
+        binding.buttonNavigateToSelectAddressScreen.setOnClickListener {
+            navigateToSelectAddressScreen()
+        }
+    }
+
+    private fun navigateToSelectAddressScreen() {
+        findNavController().navigate(R.id.navigateActionSelectAddress)
     }
 
     private fun navigateToSecondScreen() {
