@@ -35,6 +35,13 @@ class SelectAddressFragment : BaseFragment() {
         binding.buttonEditAddress.setOnClickListener {
             navigateToEditAddressScreen()
         }
+        binding.buttonNavigateToGlobalScreen.setOnClickListener {
+            navigateToGlobalScreen()
+        }
+    }
+
+    private fun navigateToGlobalScreen() {
+        findNavController().navigate(R.id.navigateActionGlobal)
     }
 
     private fun navigateToEditAddressScreen() {

@@ -36,4 +36,14 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/buttonNavigateToSecondScreen" />
 
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/buttonNavigateToGlobalScreen"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/_10dp"
+        android:text="Global Screen"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/buttonNavigateToSelectAddressScreen" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

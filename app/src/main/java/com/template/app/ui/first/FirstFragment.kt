@@ -38,6 +38,13 @@ class FirstFragment : BaseFragment() {
         binding.buttonNavigateToSelectAddressScreen.setOnClickListener {
             navigateToSelectAddressScreen()
         }
+        binding.buttonNavigateToGlobalScreen.setOnClickListener {
+            navigateToGlobalScreen()
+        }
+    }
+
+    private fun navigateToGlobalScreen() {
+        findNavController().navigate(R.id.navigateActionGlobal)
     }
 
     private fun navigateToSelectAddressScreen() {
