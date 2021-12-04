@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    app:startDestination="@id/fragmentSelectAddress"
+    android:id="@+id/nav_graph_select_address">
+
+    <fragment
+        android:id="@+id/fragmentSelectAddress"
+        android:name="com.template.app.ui.address.select.SelectAddressFragment"
+        android:label="Select Address"
+        tools:layout="@layout/fragment_select_address">
+
+        <action
+            android:id="@+id/navigateActionSelectToEditScreen"
+            app:destination="@id/fragmentEditAddress" />
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/fragmentEditAddress"
+        android:name="com.template.app.ui.address.edit.EditAddressFragment"
+        android:label="Edit Address"
+        tools:layout="@layout/fragment_edit_address" />
+
+</navigation>
