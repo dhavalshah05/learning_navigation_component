@@ -46,4 +46,14 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/buttonNavigateToSelectAddressScreen" />
 
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/buttonNavigateToGlobalScreenAndClearStack"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/_10dp"
+        android:text="Global Screen And Clear Stack"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/buttonNavigateToGlobalScreen" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

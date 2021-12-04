@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.navigation.NavOptions
 import androidx.navigation.fragment.findNavController
 import com.template.app.R
 import com.template.app.databinding.FragmentFirstBinding
@@ -41,6 +42,9 @@ class FirstFragment : BaseFragment() {
         binding.buttonNavigateToGlobalScreen.setOnClickListener {
             navigateToGlobalScreen()
         }
+        binding.buttonNavigateToGlobalScreenAndClearStack.setOnClickListener {
+            navigateToGlobalScreenAndClearStack()
+        }
     }
 
     private fun navigateToGlobalScreen() {
@@ -55,4 +59,10 @@ class FirstFragment : BaseFragment() {
         findNavController().navigate(R.id.navigateActionFirstScreenToSecondScreen)
     }
 
+    private fun navigateToGlobalScreenAndClearStack() {
+        val navOptions = NavOptions.Builder()
+            .setPopUpTo(R.id.fragmentFirst, true)
+            .build()
+        findNavController().navigate(R.id.navigateActionGlobal, null, navOptions)
+    }
 }
