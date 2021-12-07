@@ -4,14 +4,17 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.navigation.fragment.findNavController
-import com.template.app.R
 import com.template.app.databinding.FragmentThirdBinding
+import com.template.app.ui.Navigator
 import com.template.app.ui.base.BaseFragment
 import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class ThirdFragment : BaseFragment() {
+
+    @Inject
+    lateinit var navigator: Navigator
 
     private var _binding: FragmentThirdBinding? = null
     private val binding get() = _binding!!
@@ -41,10 +44,10 @@ class ThirdFragment : BaseFragment() {
     }
 
     private fun goBack() {
-        findNavController().popBackStack()
+        navigator.goBack()
     }
 
     private fun goBackToFirstScreen() {
-        findNavController().popBackStack(R.id.fragmentFirst, false)
+        navigator.goToRoot()
     }
 }

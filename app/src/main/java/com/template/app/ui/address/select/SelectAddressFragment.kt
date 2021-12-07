@@ -4,14 +4,18 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.navigation.fragment.findNavController
 import com.template.app.R
 import com.template.app.databinding.FragmentSelectAddressBinding
+import com.template.app.ui.Navigator
 import com.template.app.ui.base.BaseFragment
 import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class SelectAddressFragment : BaseFragment() {
+
+    @Inject
+    lateinit var navigator: Navigator
 
     private var _binding: FragmentSelectAddressBinding? = null
     private val binding get() = _binding!!
@@ -41,10 +45,10 @@ class SelectAddressFragment : BaseFragment() {
     }
 
     private fun navigateToGlobalScreen() {
-        findNavController().navigate(R.id.navigateActionGlobal)
+        navigator.navigateToGlobalScreen()
     }
 
     private fun navigateToEditAddressScreen() {
-        findNavController().navigate(R.id.navigateActionSelectToEditScreen)
+        navigator.navigateToEditAddressScreen()
     }
 }
