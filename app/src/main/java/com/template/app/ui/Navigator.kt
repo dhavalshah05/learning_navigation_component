@@ -8,23 +8,70 @@ import com.ncapdevi.fragnav.FragNavController
 import com.template.app.ui.address.edit.EditAddressFragment
 import com.template.app.ui.address.select.SelectAddressFragment
 import com.template.app.ui.detail.DetailFragment
-import com.template.app.ui.first.FirstFragment
 import com.template.app.ui.global.GlobalFragment
 import com.template.app.ui.home.HomeFragment
 import com.template.app.ui.second.SecondFragment
 import com.template.app.ui.settings.SettingsFragment
 import com.template.app.ui.third.ThirdFragment
-import timber.log.Timber
 
-class Navigator(
-    fragmentManager: FragmentManager,
-    @IdRes placeHolder: Int,
-    private val bottomNavigationController: BottomNavigationController
-) {
+class Navigator(private val fragmentManager: FragmentManager) {
 
-    private val fragNavController: FragNavController = FragNavController(fragmentManager, placeHolder)
+    private lateinit var fragNavController: FragNavController
+    private var bottomNavigationController: BottomNavigationController? = null
 
-    fun init(savedInstanceState: Bundle?) {
+    /**
+     *
+     */
+    fun init(
+        @IdRes placeHolder: Int,
+        savedInstanceState: Bundle?,
+        bottomNavigationController: BottomNavigationController?
+    ) {
+        fragNavController = FragNavController(fragmentManager, placeHolder)
+        this.bottomNavigationController = bottomNavigationController
+
+        initTabsAndRootFragments()
+        initTransactionListener()
+
+        fragNavController.initialize(FragNavController.TAB1, savedInstanceState)
+    }
+
+    /**
+     *
+     */
+    private fun initTransactionListener() {
+        fragNavController.transactionListener = object : FragNavController.TransactionListener {
+            override fun onFragmentTransaction(
+                fragment: Fragment?,
+                transactionType: FragNavController.TransactionType
+            ) {
+                if (fragment == null) {
+                    return
+                }
+
+                when (fragment) {
+                    is HomeFragment -> {
+                        bottomNavigationController?.showBottomNavigation()
+                    }
+                    is SettingsFragment -> {
+                        bottomNavigationController?.showBottomNavigation()
+                    }
+                    else -> {
+                        bottomNavigationController?.hideBottomNavigation()
+                    }
+                }
+            }
+
+            override fun onTabTransaction(fragment: Fragment?, index: Int) {
+            }
+
+        }
+    }
+
+    /**
+     *
+     */
+    private fun initTabsAndRootFragments() {
         fragNavController.rootFragmentListener = object : FragNavController.RootFragmentListener {
             override val numberOfRootFragments: Int
                 get() = 2
@@ -37,41 +84,18 @@ class Navigator(
                 }
             }
         }
-
-        fragNavController.transactionListener = object : FragNavController.TransactionListener {
-            override fun onFragmentTransaction(
-                fragment: Fragment?,
-                transactionType: FragNavController.TransactionType
-            ) {
-                if (fragment == null) {
-                    return
-                }
-
-                when (fragment) {
-                    is HomeFragment -> {
-                        bottomNavigationController.showBottomNavigation()
-                    }
-                    is SettingsFragment -> {
-                        bottomNavigationController.showBottomNavigation()
-                    }
-                    else -> {
-                        bottomNavigationController.hideBottomNavigation()
-                    }
-                }
-            }
-
-            override fun onTabTransaction(fragment: Fragment?, index: Int) {
-            }
-
-        }
-
-        fragNavController.initialize(FragNavController.TAB1, savedInstanceState)
     }
 
+    /**
+     *
+     */
     fun onSaveInstanceState(outState: Bundle) {
         fragNavController.onSaveInstanceState(outState)
     }
 
+    /**
+     *
+     */
     fun goBack(): Boolean {
         return if (fragNavController.isRootFragment) {
             false
@@ -80,6 +104,9 @@ class Navigator(
         }
     }
 
+    /**
+     *
+     */
     fun goToRoot() {
         fragNavController.clearStack()
     }

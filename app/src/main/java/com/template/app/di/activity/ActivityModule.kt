@@ -1,9 +1,8 @@
 package com.template.app.di.activity
 
 import android.app.Activity
-import com.template.app.ui.BottomNavigationController
-import com.template.app.ui.MainActivity
 import com.template.app.ui.Navigator
+import com.template.app.ui.base.BaseActivity
 import com.template.app.util.keyboard.KeyboardVisibilityHandler
 import dagger.Module
 import dagger.Provides
@@ -29,7 +28,13 @@ class ActivityModule {
 
     @Provides
     @ActivityScoped
-    fun provideNavigator(activity: Activity): Navigator {
-        return (activity as MainActivity).getNavigator()
+    fun provideBaseActivity(activity: Activity): BaseActivity {
+        return activity as BaseActivity
+    }
+
+    @Provides
+    @ActivityScoped
+    fun provideNavigator(activity: BaseActivity): Navigator {
+        return Navigator(activity.supportFragmentManager)
     }
 }

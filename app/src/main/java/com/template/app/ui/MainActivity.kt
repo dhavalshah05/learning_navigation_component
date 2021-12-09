@@ -6,11 +6,14 @@ import androidx.activity.viewModels
 import com.template.app.R
 import com.template.app.databinding.ActivityMainBinding
 import com.template.app.ui.base.BaseActivity
-import com.template.app.ui.first.FirstFragment
 import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class MainActivity : BaseActivity() {
+
+    @Inject
+    lateinit var navigator: Navigator
 
     private val viewModel: MainViewModel by viewModels()
     private lateinit var binding: ActivityMainBinding
@@ -25,13 +28,11 @@ class MainActivity : BaseActivity() {
         }
     }
 
-    private val navigator = Navigator(supportFragmentManager, R.id.navHostFragment, bottomNavigationController)
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
+        navigator.init(R.id.navHostFragment, savedInstanceState, bottomNavigationController)
         setContentView(binding.root)
-        navigator.init(savedInstanceState)
 
         binding.bottomNavigation.setOnItemSelectedListener {
             if (it.itemId == R.id.fragmentHome) {
@@ -55,6 +56,4 @@ class MainActivity : BaseActivity() {
         }
     }
 
-    fun getNavigator() = navigator
-    fun getBottomNavController() = bottomNavigationController
 }
