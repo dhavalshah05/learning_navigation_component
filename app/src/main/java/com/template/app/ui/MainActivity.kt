@@ -2,9 +2,8 @@ package com.template.app.ui
 
 import android.os.Bundle
 import androidx.activity.viewModels
-import androidx.fragment.app.Fragment
-import com.ncapdevi.fragnav.FragNavController
 import com.template.app.R
+import com.template.app.databinding.ActivityMainBinding
 import com.template.app.ui.base.BaseActivity
 import com.template.app.ui.first.FirstFragment
 import dagger.hilt.android.AndroidEntryPoint
@@ -13,12 +12,24 @@ import dagger.hilt.android.AndroidEntryPoint
 class MainActivity : BaseActivity() {
 
     private val viewModel: MainViewModel by viewModels()
+    private lateinit var binding: ActivityMainBinding
     private val navigator = Navigator(supportFragmentManager, R.id.navHostFragment)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
-        navigator.init(FirstFragment(), savedInstanceState)
+        binding = ActivityMainBinding.inflate(layoutInflater)
+        setContentView(binding.root)
+        navigator.init(savedInstanceState)
+
+        binding.bottomNavigation.setOnItemSelectedListener {
+            if (it.itemId == R.id.fragmentHome) {
+                navigator.switchToHomeTab()
+            } else if (it.itemId == R.id.fragmentSettings) {
+                navigator.switchToSettingsTab()
+            }
+            true
+        }
+
     }
 
     override fun onSaveInstanceState(outState: Bundle) {

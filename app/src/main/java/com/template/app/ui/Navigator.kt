@@ -9,7 +9,9 @@ import com.template.app.ui.address.edit.EditAddressFragment
 import com.template.app.ui.address.select.SelectAddressFragment
 import com.template.app.ui.first.FirstFragment
 import com.template.app.ui.global.GlobalFragment
+import com.template.app.ui.home.HomeFragment
 import com.template.app.ui.second.SecondFragment
+import com.template.app.ui.settings.SettingsFragment
 import com.template.app.ui.third.ThirdFragment
 
 class Navigator(
@@ -19,13 +21,17 @@ class Navigator(
 
     private val fragNavController: FragNavController = FragNavController(fragmentManager, placeHolder)
 
-    fun init(rootFragment: Fragment, savedInstanceState: Bundle?) {
+    fun init(savedInstanceState: Bundle?) {
         fragNavController.rootFragmentListener = object : FragNavController.RootFragmentListener {
             override val numberOfRootFragments: Int
-                get() = 1
+                get() = 2
 
             override fun getRootFragment(index: Int): Fragment {
-                return rootFragment
+                return when (index) {
+                    FragNavController.TAB1 -> HomeFragment()
+                    FragNavController.TAB2 -> SettingsFragment()
+                    else -> throw RuntimeException("Index error")
+                }
             }
         }
         fragNavController.initialize(FragNavController.TAB1, savedInstanceState)
@@ -70,6 +76,14 @@ class Navigator(
 
     fun navigateToEditAddressScreen() {
         fragNavController.pushFragment(EditAddressFragment())
+    }
+
+    fun switchToHomeTab() {
+        fragNavController.switchTab(FragNavController.TAB1)
+    }
+
+    fun switchToSettingsTab() {
+        fragNavController.switchTab(FragNavController.TAB2)
     }
 
 }
