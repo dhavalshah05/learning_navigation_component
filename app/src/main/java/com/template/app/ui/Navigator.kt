@@ -50,9 +50,7 @@ class Navigator(private val fragmentManager: FragmentManager) {
                 }
 
                 when (fragment) {
-                    is HomeFragment -> {
-                        bottomNavigationController?.showBottomNavigation()
-                    }
+                    is HomeFragment,
                     is SettingsFragment -> {
                         bottomNavigationController?.showBottomNavigation()
                     }
