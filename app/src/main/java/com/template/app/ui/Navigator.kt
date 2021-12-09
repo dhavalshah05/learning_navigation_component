@@ -7,16 +7,19 @@ import androidx.fragment.app.FragmentManager
 import com.ncapdevi.fragnav.FragNavController
 import com.template.app.ui.address.edit.EditAddressFragment
 import com.template.app.ui.address.select.SelectAddressFragment
+import com.template.app.ui.detail.DetailFragment
 import com.template.app.ui.first.FirstFragment
 import com.template.app.ui.global.GlobalFragment
 import com.template.app.ui.home.HomeFragment
 import com.template.app.ui.second.SecondFragment
 import com.template.app.ui.settings.SettingsFragment
 import com.template.app.ui.third.ThirdFragment
+import timber.log.Timber
 
 class Navigator(
     fragmentManager: FragmentManager,
-    @IdRes placeHolder: Int
+    @IdRes placeHolder: Int,
+    private val bottomNavigationController: BottomNavigationController
 ) {
 
     private val fragNavController: FragNavController = FragNavController(fragmentManager, placeHolder)
@@ -34,15 +37,39 @@ class Navigator(
                 }
             }
         }
+
+        fragNavController.transactionListener = object : FragNavController.TransactionListener {
+            override fun onFragmentTransaction(
+                fragment: Fragment?,
+                transactionType: FragNavController.TransactionType
+            ) {
+                if (fragment == null) {
+                    return
+                }
+
+                when (fragment) {
+                    is HomeFragment -> {
+                        bottomNavigationController.showBottomNavigation()
+                    }
+                    is SettingsFragment -> {
+                        bottomNavigationController.showBottomNavigation()
+                    }
+                    else -> {
+                        bottomNavigationController.hideBottomNavigation()
+                    }
+                }
+            }
+
+            override fun onTabTransaction(fragment: Fragment?, index: Int) {
+            }
+
+        }
+
         fragNavController.initialize(FragNavController.TAB1, savedInstanceState)
     }
 
     fun onSaveInstanceState(outState: Bundle) {
         fragNavController.onSaveInstanceState(outState)
-    }
-
-    fun navigateToSecondScreen() {
-        fragNavController.pushFragment(SecondFragment())
     }
 
     fun goBack(): Boolean {
@@ -51,6 +78,14 @@ class Navigator(
         } else {
             fragNavController.popFragment()
         }
+    }
+
+    fun goToRoot() {
+        fragNavController.clearStack()
+    }
+
+    fun navigateToSecondScreen() {
+        fragNavController.pushFragment(SecondFragment())
     }
 
     fun navigateToGlobalScreen() {
@@ -70,10 +105,6 @@ class Navigator(
         fragNavController.pushFragment(ThirdFragment())
     }
 
-    fun goToRoot() {
-        fragNavController.clearStack()
-    }
-
     fun navigateToEditAddressScreen() {
         fragNavController.pushFragment(EditAddressFragment())
     }
@@ -84,6 +115,10 @@ class Navigator(
 
     fun switchToSettingsTab() {
         fragNavController.switchTab(FragNavController.TAB2)
+    }
+
+    fun openDetailScreen() {
+        fragNavController.pushFragment(DetailFragment())
     }
 
 }

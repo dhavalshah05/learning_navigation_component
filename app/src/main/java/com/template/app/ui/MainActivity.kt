@@ -1,6 +1,7 @@
 package com.template.app.ui
 
 import android.os.Bundle
+import android.view.View
 import androidx.activity.viewModels
 import com.template.app.R
 import com.template.app.databinding.ActivityMainBinding
@@ -13,7 +14,18 @@ class MainActivity : BaseActivity() {
 
     private val viewModel: MainViewModel by viewModels()
     private lateinit var binding: ActivityMainBinding
-    private val navigator = Navigator(supportFragmentManager, R.id.navHostFragment)
+
+    private val bottomNavigationController = object : BottomNavigationController {
+        override fun hideBottomNavigation() {
+            binding.bottomNavigation.visibility = View.GONE
+        }
+
+        override fun showBottomNavigation() {
+            binding.bottomNavigation.visibility = View.VISIBLE
+        }
+    }
+
+    private val navigator = Navigator(supportFragmentManager, R.id.navHostFragment, bottomNavigationController)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -44,4 +56,5 @@ class MainActivity : BaseActivity() {
     }
 
     fun getNavigator() = navigator
+    fun getBottomNavController() = bottomNavigationController
 }

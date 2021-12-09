@@ -1,6 +1,7 @@
 package com.template.app.di.activity
 
 import android.app.Activity
+import com.template.app.ui.BottomNavigationController
 import com.template.app.ui.MainActivity
 import com.template.app.ui.Navigator
 import com.template.app.util.keyboard.KeyboardVisibilityHandler
