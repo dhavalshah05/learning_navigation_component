@@ -23,10 +23,6 @@ class MainNavigator(fragmentManager: FragmentManager) : Navigator(fragmentManage
         return rootFragments
     }
 
-    override fun isFragmentPartOfBottomNavigation(fragment: Fragment): Boolean {
-        return fragment is HomeFragment || fragment is SettingsFragment
-    }
-
     fun navigateToSecondScreen() {
         fragNavController.pushFragment(SecondFragment())
     }

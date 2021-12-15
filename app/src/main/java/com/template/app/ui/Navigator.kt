@@ -106,7 +106,7 @@ abstract class Navigator(
                     return
                 }
 
-                if (isFragmentPartOfBottomNavigation(fragment)) {
+                if (isFragmentPartOfRootFragment(fragment)) {
                     bottomNavigationController?.showBottomNavigation()
                 } else {
                     bottomNavigationController?.hideBottomNavigation()
@@ -122,8 +122,16 @@ abstract class Navigator(
     /**
      *
      */
-    open fun isFragmentPartOfBottomNavigation(fragment: Fragment): Boolean {
-        return false
+    private fun isFragmentPartOfRootFragment(fragment: Fragment): Boolean {
+        var result = false
+
+        for (rootFragment in getRootFragments()) {
+            if (rootFragment.javaClass.isInstance(fragment)) {
+                result = true
+            }
+        }
+
+        return result
     }
 
     abstract fun getRootFragments(): List<Fragment>
