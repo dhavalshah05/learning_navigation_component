@@ -1,22 +1,18 @@
 package com.template.app.ui
 
+import androidx.fragment.app.FragmentManager
 import android.os.Bundle
 import androidx.annotation.IdRes
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentManager
 import com.ncapdevi.fragnav.FragNavController
-import com.template.app.ui.address.edit.EditAddressFragment
-import com.template.app.ui.address.select.SelectAddressFragment
-import com.template.app.ui.detail.DetailFragment
-import com.template.app.ui.global.GlobalFragment
-import com.template.app.ui.home.HomeFragment
-import com.template.app.ui.second.SecondFragment
-import com.template.app.ui.settings.SettingsFragment
-import com.template.app.ui.third.ThirdFragment
+import kotlin.reflect.KClass
 
-class Navigator(private val fragmentManager: FragmentManager) {
+@Suppress("unused", "MemberVisibilityCanBePrivate")
+abstract class Navigator(
+    private val fragmentManager: FragmentManager
+) {
 
-    private lateinit var fragNavController: FragNavController
+    protected lateinit var fragNavController: FragNavController
     private var bottomNavigationController: BottomNavigationController? = null
 
     /**
@@ -25,7 +21,7 @@ class Navigator(private val fragmentManager: FragmentManager) {
     fun init(
         @IdRes placeHolder: Int,
         savedInstanceState: Bundle?,
-        bottomNavigationController: BottomNavigationController?
+        bottomNavigationController: BottomNavigationController? = null
     ) {
         fragNavController = FragNavController(fragmentManager, placeHolder)
         this.bottomNavigationController = bottomNavigationController
@@ -34,54 +30,6 @@ class Navigator(private val fragmentManager: FragmentManager) {
         initTransactionListener()
 
         fragNavController.initialize(FragNavController.TAB1, savedInstanceState)
-    }
-
-    /**
-     *
-     */
-    private fun initTransactionListener() {
-        fragNavController.transactionListener = object : FragNavController.TransactionListener {
-            override fun onFragmentTransaction(
-                fragment: Fragment?,
-                transactionType: FragNavController.TransactionType
-            ) {
-                if (fragment == null) {
-                    return
-                }
-
-                when (fragment) {
-                    is HomeFragment,
-                    is SettingsFragment -> {
-                        bottomNavigationController?.showBottomNavigation()
-                    }
-                    else -> {
-                        bottomNavigationController?.hideBottomNavigation()
-                    }
-                }
-            }
-
-            override fun onTabTransaction(fragment: Fragment?, index: Int) {
-            }
-
-        }
-    }
-
-    /**
-     *
-     */
-    private fun initTabsAndRootFragments() {
-        fragNavController.rootFragmentListener = object : FragNavController.RootFragmentListener {
-            override val numberOfRootFragments: Int
-                get() = 2
-
-            override fun getRootFragment(index: Int): Fragment {
-                return when (index) {
-                    FragNavController.TAB1 -> HomeFragment()
-                    FragNavController.TAB2 -> SettingsFragment()
-                    else -> throw RuntimeException("Index error")
-                }
-            }
-        }
     }
 
     /**
@@ -109,41 +57,75 @@ class Navigator(private val fragmentManager: FragmentManager) {
         fragNavController.clearStack()
     }
 
-    fun navigateToSecondScreen() {
-        fragNavController.pushFragment(SecondFragment())
+    /**
+     *
+     */
+    fun popFragmentTo(fragmentClass: KClass<*>) {
+        fragNavController.currentStack?.let { stack ->
+            val size = stack.size
+            var indexOfFragment = -1
+
+            for (i in stack.indices) {
+                val fragment = stack[i]
+                if (fragmentClass.isInstance(fragment)) {
+                    indexOfFragment = i + 1
+                }
+            }
+
+            if (indexOfFragment != -1) {
+                val popTo = size - indexOfFragment
+                fragNavController.popFragments(popTo)
+            }
+        }
     }
 
-    fun navigateToGlobalScreen() {
-        fragNavController.pushFragment(GlobalFragment())
+    /**
+     *
+     */
+    private fun initTabsAndRootFragments() {
+        fragNavController.rootFragmentListener = object : FragNavController.RootFragmentListener {
+            override val numberOfRootFragments: Int
+                get() = getRootFragments().size
+
+            override fun getRootFragment(index: Int): Fragment {
+                return getRootFragments()[index]
+            }
+        }
     }
 
-    fun navigateToSelectAddressScreen() {
-        fragNavController.pushFragment(SelectAddressFragment())
+    /**
+     *
+     */
+    private fun initTransactionListener() {
+        fragNavController.transactionListener = object : FragNavController.TransactionListener {
+            override fun onFragmentTransaction(
+                fragment: Fragment?,
+                transactionType: FragNavController.TransactionType
+            ) {
+                if (fragment == null) {
+                    return
+                }
+
+                if (isFragmentPartOfBottomNavigation(fragment)) {
+                    bottomNavigationController?.showBottomNavigation()
+                } else {
+                    bottomNavigationController?.hideBottomNavigation()
+                }
+            }
+
+            override fun onTabTransaction(fragment: Fragment?, index: Int) {
+            }
+
+        }
     }
 
-    fun navigateToGlobalScreenAndClearStack() {
-        fragNavController.clearStack()
-        fragNavController.replaceFragment(GlobalFragment())
+    /**
+     *
+     */
+    open fun isFragmentPartOfBottomNavigation(fragment: Fragment): Boolean {
+        return false
     }
 
-    fun navigateToThirdScreen() {
-        fragNavController.pushFragment(ThirdFragment())
-    }
-
-    fun navigateToEditAddressScreen() {
-        fragNavController.pushFragment(EditAddressFragment())
-    }
-
-    fun switchToHomeTab() {
-        fragNavController.switchTab(FragNavController.TAB1)
-    }
-
-    fun switchToSettingsTab() {
-        fragNavController.switchTab(FragNavController.TAB2)
-    }
-
-    fun openDetailScreen() {
-        fragNavController.pushFragment(DetailFragment())
-    }
+    abstract fun getRootFragments(): List<Fragment>
 
 }

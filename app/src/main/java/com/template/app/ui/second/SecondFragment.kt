@@ -5,7 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.template.app.databinding.FragmentSecondBinding
-import com.template.app.ui.Navigator
+import com.template.app.ui.MainNavigator
 import com.template.app.ui.base.BaseFragment
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
@@ -14,7 +14,7 @@ import javax.inject.Inject
 class SecondFragment : BaseFragment() {
 
     @Inject
-    lateinit var navigator: Navigator
+    lateinit var navigator: MainNavigator
 
     private var _binding: FragmentSecondBinding? = null
     private val binding get() = _binding!!

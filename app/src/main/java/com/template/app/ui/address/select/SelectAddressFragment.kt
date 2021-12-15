@@ -4,9 +4,8 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.template.app.R
 import com.template.app.databinding.FragmentSelectAddressBinding
-import com.template.app.ui.Navigator
+import com.template.app.ui.MainNavigator
 import com.template.app.ui.base.BaseFragment
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
@@ -15,7 +14,7 @@ import javax.inject.Inject
 class SelectAddressFragment : BaseFragment() {
 
     @Inject
-    lateinit var navigator: Navigator
+    lateinit var navigator: MainNavigator
 
     private var _binding: FragmentSelectAddressBinding? = null
     private val binding get() = _binding!!

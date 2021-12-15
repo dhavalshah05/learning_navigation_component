@@ -13,7 +13,7 @@ import javax.inject.Inject
 class MainActivity : BaseActivity() {
 
     @Inject
-    lateinit var navigator: Navigator
+    lateinit var navigator: MainNavigator
 
     private val viewModel: MainViewModel by viewModels()
     private lateinit var binding: ActivityMainBinding
