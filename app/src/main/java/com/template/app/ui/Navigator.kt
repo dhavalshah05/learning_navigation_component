@@ -13,6 +13,7 @@ abstract class Navigator(
 ) {
 
     protected lateinit var fragNavController: FragNavController
+    private lateinit var rootFragments: List<Fragment>
     private var bottomNavigationController: BottomNavigationController? = null
 
     /**
@@ -21,9 +22,12 @@ abstract class Navigator(
     fun init(
         @IdRes placeHolder: Int,
         savedInstanceState: Bundle?,
+        rootFragments: List<Fragment>,
         bottomNavigationController: BottomNavigationController? = null
     ) {
         fragNavController = FragNavController(fragmentManager, placeHolder)
+
+        this.rootFragments = rootFragments
         this.bottomNavigationController = bottomNavigationController
 
         initTabsAndRootFragments()
@@ -85,10 +89,10 @@ abstract class Navigator(
     private fun initTabsAndRootFragments() {
         fragNavController.rootFragmentListener = object : FragNavController.RootFragmentListener {
             override val numberOfRootFragments: Int
-                get() = getRootFragments().size
+                get() = rootFragments.size
 
             override fun getRootFragment(index: Int): Fragment {
-                return getRootFragments()[index]
+                return rootFragments[index]
             }
         }
     }
@@ -125,7 +129,7 @@ abstract class Navigator(
     private fun isFragmentPartOfRootFragment(fragment: Fragment): Boolean {
         var result = false
 
-        for (rootFragment in getRootFragments()) {
+        for (rootFragment in rootFragments) {
             if (rootFragment.javaClass.isInstance(fragment)) {
                 result = true
             }
@@ -133,7 +137,5 @@ abstract class Navigator(
 
         return result
     }
-
-    abstract fun getRootFragments(): List<Fragment>
 
 }

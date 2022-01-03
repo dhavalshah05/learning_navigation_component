@@ -3,17 +3,16 @@ package com.template.app.ui
 import android.os.Bundle
 import android.view.View
 import androidx.activity.viewModels
+import androidx.fragment.app.Fragment
 import com.template.app.R
 import com.template.app.databinding.ActivityMainBinding
 import com.template.app.ui.base.BaseActivity
+import com.template.app.ui.home.HomeFragment
+import com.template.app.ui.settings.SettingsFragment
 import dagger.hilt.android.AndroidEntryPoint
-import javax.inject.Inject
 
 @AndroidEntryPoint
 class MainActivity : BaseActivity() {
-
-    @Inject
-    lateinit var navigator: MainNavigator
 
     private val viewModel: MainViewModel by viewModels()
     private lateinit var binding: ActivityMainBinding
@@ -28,10 +27,24 @@ class MainActivity : BaseActivity() {
         }
     }
 
+    override fun getNavigationHostFragmentId(): Int {
+        return R.id.navHostFragment
+    }
+
+    override fun getRootFragments(): List<Fragment> {
+        return listOf(
+            HomeFragment(),
+            SettingsFragment()
+        )
+    }
+
+    override fun provideBottomNavigationController(): BottomNavigationController {
+        return bottomNavigationController
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
-        navigator.init(R.id.navHostFragment, savedInstanceState, bottomNavigationController)
         setContentView(binding.root)
 
         binding.bottomNavigation.setOnItemSelectedListener {
@@ -43,17 +56,6 @@ class MainActivity : BaseActivity() {
             true
         }
 
-    }
-
-    override fun onSaveInstanceState(outState: Bundle) {
-        super.onSaveInstanceState(outState)
-        navigator.onSaveInstanceState(outState)
-    }
-
-    override fun onBackPressed() {
-        if (!navigator.goBack()) {
-            super.onBackPressed()
-        }
     }
 
 }
