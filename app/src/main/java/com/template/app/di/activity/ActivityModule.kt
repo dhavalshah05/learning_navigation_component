@@ -2,7 +2,7 @@ package com.template.app.di.activity
 
 import android.app.Activity
 import com.template.app.ui.AppNavigator
-import com.template.app.ui.base.BaseActivity
+import com.template.app.ui.base.NavigatorActivity
 import com.template.app.util.keyboard.KeyboardVisibilityHandler
 import dagger.Module
 import dagger.Provides
@@ -28,13 +28,13 @@ class ActivityModule {
 
     @Provides
     @ActivityScoped
-    fun provideBaseActivity(activity: Activity): BaseActivity {
-        return activity as BaseActivity
+    fun provideNavigatorActivity(activity: Activity): NavigatorActivity {
+        return activity as NavigatorActivity
     }
 
     @Provides
     @ActivityScoped
-    fun provideNavigator(activity: BaseActivity): AppNavigator {
+    fun provideNavigator(activity: NavigatorActivity): AppNavigator {
         return AppNavigator(activity.supportFragmentManager)
     }
 }

@@ -6,13 +6,13 @@ import androidx.activity.viewModels
 import androidx.fragment.app.Fragment
 import com.template.app.R
 import com.template.app.databinding.ActivityMainBinding
-import com.template.app.ui.base.BaseActivity
+import com.template.app.ui.base.NavigatorActivity
 import com.template.app.ui.home.HomeFragment
 import com.template.app.ui.settings.SettingsFragment
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class MainActivity : BaseActivity() {
+class MainActivity : NavigatorActivity() {
 
     private val viewModel: MainViewModel by viewModels()
     private lateinit var binding: ActivityMainBinding
