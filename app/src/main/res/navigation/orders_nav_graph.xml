@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    app:startDestination="@id/fragmentFutureOrders"
+    android:id="@+id/orders_nav_graph">
+
+    <fragment
+        android:id="@+id/fragmentFutureOrders"
+        android:name="com.template.app.ui.orders.FutureOrdersFragment"
+        tools:layout="@layout/fragment_future_order"
+        android:label="Future Orders"/>
+
+    <fragment
+        android:id="@+id/fragmentPastOrders"
+        android:name="com.template.app.ui.orders.PastOrdersFragment"
+        tools:layout="@layout/fragment_past_order"
+        android:label="Past Orders"/>
+
+    <action
+        android:id="@+id/navigateActionFutureOrders"
+        app:destination="@id/fragmentFutureOrders"/>
+
+    <action
+        android:id="@+id/navigateActionPastOrders"
+        app:destination="@id/fragmentPastOrders"/>
+
+</navigation>

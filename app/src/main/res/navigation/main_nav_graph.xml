@@ -23,6 +23,10 @@
             android:id="@+id/navigateActionSelectAddress"
             app:destination="@id/nav_graph_select_address"/>
 
+        <action
+            android:id="@+id/navigateActionOrders"
+            app:destination="@id/fragmentOrders"/>
+
     </fragment>
 
     <fragment
@@ -48,6 +52,12 @@
         android:name="com.template.app.ui.global.GlobalFragment"
         android:label="Global Fragment"
         tools:layout="@layout/fragment_global"/>
+
+    <fragment
+        android:id="@+id/fragmentOrders"
+        android:name="com.template.app.ui.orders.OrdersFragment"
+        android:label="Orders Fragment"
+        tools:layout="@layout/fragment_orders"/>
 
     <include
         app:graph="@navigation/nav_graph_select_address" />

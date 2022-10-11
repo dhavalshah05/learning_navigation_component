@@ -45,6 +45,9 @@ class FirstFragment : BaseFragment() {
         binding.buttonNavigateToGlobalScreenAndClearStack.setOnClickListener {
             navigateToGlobalScreenAndClearStack()
         }
+        binding.buttonNavigateToOrders.setOnClickListener {
+            findNavController().navigate(R.id.navigateActionOrders)
+        }
     }
 
     private fun navigateToGlobalScreen() {
