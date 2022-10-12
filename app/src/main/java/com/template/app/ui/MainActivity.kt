@@ -45,10 +45,26 @@ class MainActivity : BaseActivity() {
     }
 
     private val destinationChangeListener = NavController.OnDestinationChangedListener { _, destination, _ ->
-        if (destination.id == R.id.fragmentHome || destination.id == R.id.fragmentOrders) {
+        if (destination.id == R.id.fragmentHome || destination.id == R.id.fragmentOrders || destination.id == R.id.fragmentSettings) {
             bottomNavigation.visibility = View.VISIBLE
         } else {
             bottomNavigation.visibility = View.GONE
+        }
+
+        if (destination.id == R.id.fragmentHome) {
+            bottomNavigation.setOnItemSelectedListener(null)
+            bottomNavigation.selectedItemId = R.id.bottomNavigationExhibitions
+            bottomNavigation.setOnItemSelectedListener(bottomNavigationSelectListener)
+        }
+        if (destination.id == R.id.fragmentOrders) {
+            bottomNavigation.setOnItemSelectedListener(null)
+            bottomNavigation.selectedItemId = R.id.bottomNavigationOrders
+            bottomNavigation.setOnItemSelectedListener(bottomNavigationSelectListener)
+        }
+        if (destination.id == R.id.fragmentSettings) {
+            bottomNavigation.setOnItemSelectedListener(null)
+            bottomNavigation.selectedItemId = R.id.bottomNavigationSettings
+            bottomNavigation.setOnItemSelectedListener(bottomNavigationSelectListener)
         }
 
         val iterator = navHostFragment.findNavController().backStack.iterator()
@@ -79,6 +95,11 @@ class MainActivity : BaseActivity() {
             return@OnItemSelectedListener true
         }
         if (it.itemId == R.id.bottomNavigationSettings) {
+            val options = NavOptions.Builder()
+                .setPopUpTo(R.id.fragmentSettings, false)
+                .setLaunchSingleTop(true)
+                .build()
+            navHostFragment.findNavController().navigate(R.id.navigateActionSettings, null, options)
             return@OnItemSelectedListener true
         }
         false
