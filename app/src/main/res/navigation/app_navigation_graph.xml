@@ -27,6 +27,10 @@
             android:id="@+id/navigateActionCreateAccount"
             app:destination="@id/fragmentCreateAccount"/>
 
+        <action
+            android:id="@+id/navigateActionVerifyOtp"
+            app:destination="@id/fragmentVerifyOtp" />
+
     </fragment>
 
     <fragment
@@ -34,5 +38,21 @@
         android:name="com.template.app.ui.demoappnavigation.createaccount.CreateAccountFragment"
         android:label="CreateAccountFragment"
         tools:layout="@layout/create_account_fragment"/>
+
+    <fragment
+        android:id="@+id/fragmentVerifyOtp"
+        android:name="com.template.app.ui.demoappnavigation.otp.VerifyOtpFragment"
+        android:label="VerifyOtpFragment"
+        tools:layout="@layout/verify_otp_fragment" />
+
+    <fragment
+        android:id="@+id/fragmentHome"
+        android:name="com.template.app.ui.demoappnavigation.home.HomeFragment"
+        android:label="HomeFragment"
+        tools:layout="@layout/home_fragment" />
+
+    <action
+        android:id="@+id/navigateActionHome"
+        app:destination="@id/fragmentHome" />
 
 </navigation>

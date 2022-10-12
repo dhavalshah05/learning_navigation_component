@@ -22,5 +22,8 @@ class LoginFragment : BaseFragment() {
         view.findViewById<AppCompatButton>(R.id.buttonCreateAccount).setOnClickListener {
             findNavController().navigate(R.id.navigateActionCreateAccount)
         }
+        view.findViewById<AppCompatButton>(R.id.buttonVerifyOtp).setOnClickListener {
+            findNavController().navigate(R.id.navigateActionVerifyOtp)
+        }
     }
 }
