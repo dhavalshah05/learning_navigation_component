@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    app:startDestination="@id/fragmentSplash"
+    android:id="@+id/app_navigation_graph">
+
+    <fragment
+        android:id="@+id/fragmentSplash"
+        android:label="Splash Fragment"
+        android:name="com.template.app.ui.demoappnavigation.splash.SplashFragment"
+        tools:layout="@layout/splash_fragment">
+
+        <action
+            android:id="@+id/navigateActionLogin"
+            app:destination="@id/fragmentLogin"/>
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/fragmentLogin"
+        android:name="com.template.app.ui.demoappnavigation.login.LoginFragment"
+        android:label="LoginFragment"
+        tools:layout="@layout/login_fragment">
+
+        <action
+            android:id="@+id/navigateActionCreateAccount"
+            app:destination="@id/fragmentCreateAccount"/>
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/fragmentCreateAccount"
+        android:name="com.template.app.ui.demoappnavigation.createaccount.CreateAccountFragment"
+        android:label="CreateAccountFragment"
+        tools:layout="@layout/create_account_fragment"/>
+
+</navigation>
