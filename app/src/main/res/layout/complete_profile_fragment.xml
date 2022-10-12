@@ -7,7 +7,7 @@
     android:layout_height="match_parent">
 
     <androidx.appcompat.widget.AppCompatTextView
-        android:text="Create Account Screen"
+        android:text="Complete Profile Screen"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"/>
 
