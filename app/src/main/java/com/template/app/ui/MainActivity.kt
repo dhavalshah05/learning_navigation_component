@@ -7,6 +7,7 @@ import androidx.activity.viewModels
 import androidx.fragment.app.FragmentContainerView
 import androidx.navigation.NavController
 import androidx.navigation.NavDestination
+import androidx.navigation.NavOptions
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
@@ -34,6 +35,7 @@ class MainActivity : BaseActivity() {
 
         navHostFragment.findNavController().addOnDestinationChangedListener(destinationChangeListener)
         bottomNavigation.setOnItemSelectedListener(bottomNavigationSelectListener)
+        bottomNavigation.setOnItemReselectedListener {  }
     }
 
     override fun onDestroy() {
@@ -43,16 +45,43 @@ class MainActivity : BaseActivity() {
     }
 
     private val destinationChangeListener = NavController.OnDestinationChangedListener { _, destination, _ ->
-        if (destination.id == R.id.fragmentHome) {
+        if (destination.id == R.id.fragmentHome || destination.id == R.id.fragmentOrders) {
             bottomNavigation.visibility = View.VISIBLE
         } else {
             bottomNavigation.visibility = View.GONE
         }
+
+        val iterator = navHostFragment.findNavController().backStack.iterator()
+        var stack = ""
+        while (iterator.hasNext()) {
+            stack = "$stack, ${iterator.next().destination.label}"
+        }
+        Timber.d(stack)
     }
 
     private val bottomNavigationSelectListener = NavigationBarView.OnItemSelectedListener {
-        Timber.d("onItem Selected: ${it.itemId}")
-        true
+        Timber.d("onBottomNav clicked: ${it.itemId}")
+
+        if (it.itemId == R.id.bottomNavigationExhibitions) {
+            val options = NavOptions.Builder()
+                .setPopUpTo(R.id.fragmentHome, false)
+                .setLaunchSingleTop(true)
+                .build()
+            navHostFragment.findNavController().navigate(R.id.navigateActionHome, null, options)
+            return@OnItemSelectedListener true
+        }
+        if (it.itemId == R.id.bottomNavigationOrders) {
+            val options = NavOptions.Builder()
+                .setPopUpTo(R.id.fragmentOrders, false)
+                .setLaunchSingleTop(true)
+                .build()
+            navHostFragment.findNavController().navigate(R.id.navigateActionOrders, null, options)
+            return@OnItemSelectedListener true
+        }
+        if (it.itemId == R.id.bottomNavigationSettings) {
+            return@OnItemSelectedListener true
+        }
+        false
     }
 
 }

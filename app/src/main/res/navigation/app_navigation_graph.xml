@@ -67,4 +67,14 @@
         android:label="CompleteProfileFragment"
         tools:layout="@layout/complete_profile_fragment"/>
 
+    <fragment
+        android:id="@+id/fragmentOrders"
+        android:name="com.template.app.ui.demoappnavigation.orders.OrdersFragment"
+        android:label="OrdersFragment"
+        tools:layout="@layout/orders_fragment" />
+
+    <action
+        android:id="@+id/navigateActionOrders"
+        app:destination="@id/fragmentOrders"/>
+
 </navigation>

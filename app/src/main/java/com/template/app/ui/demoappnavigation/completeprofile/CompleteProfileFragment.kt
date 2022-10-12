@@ -10,6 +10,7 @@ import androidx.navigation.fragment.findNavController
 import com.template.app.R
 import com.template.app.ui.base.BaseFragment
 import dagger.hilt.android.AndroidEntryPoint
+import timber.log.Timber
 
 @AndroidEntryPoint
 class CompleteProfileFragment : BaseFragment() {
@@ -22,7 +23,7 @@ class CompleteProfileFragment : BaseFragment() {
         super.onViewCreated(view, savedInstanceState)
         view.findViewById<AppCompatButton>(R.id.buttonNext).setOnClickListener {
             val options = NavOptions.Builder()
-                .setPopUpTo(findNavController().graph.first().id, true)
+                .setPopUpTo(R.id.fragmentLogin, true)
                 .build()
             findNavController().navigate(R.id.navigateActionHome, null, options)
         }

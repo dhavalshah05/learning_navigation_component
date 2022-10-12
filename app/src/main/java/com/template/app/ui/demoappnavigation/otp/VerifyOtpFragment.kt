@@ -11,6 +11,7 @@ import androidx.navigation.fragment.findNavController
 import com.template.app.R
 import com.template.app.ui.base.BaseFragment
 import dagger.hilt.android.AndroidEntryPoint
+import timber.log.Timber
 
 @AndroidEntryPoint
 class VerifyOtpFragment : BaseFragment() {
@@ -22,7 +23,7 @@ class VerifyOtpFragment : BaseFragment() {
 
     private fun handleNavigation() {
         val options = NavOptions.Builder()
-            .setPopUpTo(findNavController().graph.first().id, true)
+            .setPopUpTo(R.id.fragmentLogin, true)
             .build()
         findNavController().navigate(R.id.navigateActionHome, null, options)
     }
