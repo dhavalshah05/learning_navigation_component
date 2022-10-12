@@ -81,10 +81,22 @@
         android:id="@+id/fragmentSettings"
         android:name="com.template.app.ui.demoappnavigation.settings.SettingsFragment"
         android:label="SettingsFragment"
-        tools:layout="@layout/settings_fragment" />
+        tools:layout="@layout/settings_fragment" >
+
+        <action
+            android:id="@+id/navigateActionSettingDetail"
+            app:destination="@id/fragmentSettingDetail" />
+
+    </fragment>
 
     <action
         android:id="@+id/navigateActionSettings"
         app:destination="@id/fragmentSettings"/>
+
+    <fragment
+        android:id="@+id/fragmentSettingDetail"
+        android:name="com.template.app.ui.demoappnavigation.settings.SettingDetailFragment"
+        android:label="SettingDetailFragment"
+        tools:layout="@layout/setting_detail_fragment" />
 
 </navigation>
