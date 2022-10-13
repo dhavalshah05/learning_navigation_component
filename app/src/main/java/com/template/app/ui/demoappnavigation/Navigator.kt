@@ -92,4 +92,11 @@ class Navigator(
         navController.navigate(R.id.navigateActionSettingDetail)
     }
 
+    fun toLogin() {
+        val options = NavOptions.Builder()
+            .setPopUpTo(R.id.fragmentHome, true)
+            .build()
+        navController.navigate(R.id.navigateActionLogin, null, options)
+    }
+
 }

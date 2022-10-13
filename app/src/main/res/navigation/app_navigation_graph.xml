@@ -17,6 +17,10 @@
 
     </fragment>
 
+    <action
+        android:id="@+id/navigateActionLogin"
+        app:destination="@id/fragmentLogin"/>
+
     <fragment
         android:id="@+id/fragmentLogin"
         android:name="com.template.app.ui.demoappnavigation.login.LoginFragment"
