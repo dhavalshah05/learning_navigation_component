@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import androidx.navigation.NavOptions
 import androidx.navigation.fragment.findNavController
 import com.template.app.R
+import com.template.app.ui.MainActivity
 import com.template.app.ui.base.BaseFragment
 import dagger.hilt.android.AndroidEntryPoint
 import timber.log.Timber
@@ -16,16 +17,14 @@ import timber.log.Timber
 @AndroidEntryPoint
 class VerifyOtpFragment : BaseFragment() {
 
+    private val navigator by lazy { (requireActivity() as MainActivity).getNavigator() }
     private val handler = Handler(Looper.getMainLooper())
     private val runnable = Runnable {
         handleNavigation()
     }
 
     private fun handleNavigation() {
-        val options = NavOptions.Builder()
-            .setPopUpTo(R.id.fragmentLogin, true)
-            .build()
-        findNavController().navigate(R.id.navigateActionHome, null, options)
+        navigator.verifyOtpToHome()
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {

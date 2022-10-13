@@ -8,12 +8,15 @@ import androidx.appcompat.widget.AppCompatButton
 import androidx.navigation.NavOptions
 import androidx.navigation.fragment.findNavController
 import com.template.app.R
+import com.template.app.ui.MainActivity
 import com.template.app.ui.base.BaseFragment
 import dagger.hilt.android.AndroidEntryPoint
 import timber.log.Timber
 
 @AndroidEntryPoint
 class CompleteProfileFragment : BaseFragment() {
+
+    private val navigator by lazy { (requireActivity() as MainActivity).getNavigator() }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.complete_profile_fragment, container, false)
@@ -22,10 +25,7 @@ class CompleteProfileFragment : BaseFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         view.findViewById<AppCompatButton>(R.id.buttonNext).setOnClickListener {
-            val options = NavOptions.Builder()
-                .setPopUpTo(R.id.fragmentLogin, true)
-                .build()
-            findNavController().navigate(R.id.navigateActionHome, null, options)
+            navigator.completeProfileToHome()
         }
     }
 

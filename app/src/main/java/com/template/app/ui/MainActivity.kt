@@ -1,24 +1,17 @@
 package com.template.app.ui
 
 import android.os.Bundle
-import android.view.MenuItem
 import android.view.View
 import androidx.activity.viewModels
 import androidx.annotation.IdRes
-import androidx.fragment.app.FragmentContainerView
 import androidx.navigation.NavController
-import androidx.navigation.NavDestination
-import androidx.navigation.NavOptions
-import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
-import androidx.navigation.fragment.findNavController
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.navigation.NavigationBarView
 import com.template.app.R
 import com.template.app.ui.base.BaseActivity
 import com.template.app.ui.demoappnavigation.Navigator
 import dagger.hilt.android.AndroidEntryPoint
-import timber.log.Timber
 
 @AndroidEntryPoint
 class MainActivity : BaseActivity() {
@@ -26,7 +19,6 @@ class MainActivity : BaseActivity() {
     private val viewModel: MainViewModel by viewModels()
 
     private lateinit var bottomNavigation: BottomNavigationView
-    private lateinit var navHostFragment: NavHostFragment
     private lateinit var navigator: Navigator
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -34,17 +26,17 @@ class MainActivity : BaseActivity() {
         setContentView(R.layout.activity_main)
 
         bottomNavigation = findViewById(R.id.bottomNavigation)
-        navHostFragment = supportFragmentManager.findFragmentById(R.id.navHostFragment) as NavHostFragment
+        val navHostFragment = supportFragmentManager.findFragmentById(R.id.navHostFragment) as NavHostFragment
         navigator = Navigator(navController = navHostFragment.navController)
 
-        navHostFragment.findNavController().addOnDestinationChangedListener(destinationChangeListener)
+        navigator.addDestinationChangeListener(destinationChangeListener)
         bottomNavigation.setOnItemSelectedListener(bottomNavigationSelectListener)
         bottomNavigation.setOnItemReselectedListener {  }
     }
 
     override fun onDestroy() {
         super.onDestroy()
-        navHostFragment.findNavController().removeOnDestinationChangedListener(destinationChangeListener)
+        navigator.removeDestinationChangeListener(destinationChangeListener)
         bottomNavigation.setOnItemSelectedListener(null)
     }
 
@@ -71,47 +63,23 @@ class MainActivity : BaseActivity() {
             }
         }
 
-        printBackStack()
+        navigator.printBackStack()
     }
 
     private val bottomNavigationSelectListener = NavigationBarView.OnItemSelectedListener {
         if (it.itemId == R.id.bottomNavigationExhibitions) {
-            val options = NavOptions.Builder()
-                .setPopUpTo(R.id.fragmentHome, false)
-                .setLaunchSingleTop(true)
-                .build()
-            navHostFragment.findNavController().navigate(R.id.navigateActionHome, null, options)
+            navigator.toTabHome()
             return@OnItemSelectedListener true
         }
         if (it.itemId == R.id.bottomNavigationOrders) {
-            val options = NavOptions.Builder()
-                .setPopUpTo(R.id.fragmentOrders, false)
-                .setLaunchSingleTop(true)
-                .build()
-            navHostFragment.findNavController().navigate(R.id.navigateActionOrders, null, options)
+            navigator.toTabOrders()
             return@OnItemSelectedListener true
         }
         if (it.itemId == R.id.bottomNavigationSettings) {
-            val options = NavOptions.Builder()
-                .setPopUpTo(R.id.fragmentSettings, false)
-                .setLaunchSingleTop(true)
-                .build()
-            navHostFragment.findNavController().navigate(R.id.navigateActionSettings, null, options)
+            navigator.toTabSettings()
             return@OnItemSelectedListener true
         }
         false
-    }
-
-    private fun printBackStack() {
-        val iterator = navHostFragment.findNavController().backStack.iterator()
-        var stack = ""
-        while (iterator.hasNext()) {
-            val label = iterator.next().destination.label
-            if (label != null) {
-                stack = stack.plus("$label, ")
-            }
-        }
-        Timber.d(stack)
     }
 
     private fun selectBottomNavigationWithoutListener(@IdRes id: Int) {
