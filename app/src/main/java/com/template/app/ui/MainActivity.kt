@@ -16,6 +16,7 @@ import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.navigation.NavigationBarView
 import com.template.app.R
 import com.template.app.ui.base.BaseActivity
+import com.template.app.ui.demoappnavigation.Navigator
 import dagger.hilt.android.AndroidEntryPoint
 import timber.log.Timber
 
@@ -26,6 +27,7 @@ class MainActivity : BaseActivity() {
 
     private lateinit var bottomNavigation: BottomNavigationView
     private lateinit var navHostFragment: NavHostFragment
+    private lateinit var navigator: Navigator
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -33,6 +35,7 @@ class MainActivity : BaseActivity() {
 
         bottomNavigation = findViewById(R.id.bottomNavigation)
         navHostFragment = supportFragmentManager.findFragmentById(R.id.navHostFragment) as NavHostFragment
+        navigator = Navigator(navController = navHostFragment.navController)
 
         navHostFragment.findNavController().addOnDestinationChangedListener(destinationChangeListener)
         bottomNavigation.setOnItemSelectedListener(bottomNavigationSelectListener)
@@ -43,6 +46,10 @@ class MainActivity : BaseActivity() {
         super.onDestroy()
         navHostFragment.findNavController().removeOnDestinationChangedListener(destinationChangeListener)
         bottomNavigation.setOnItemSelectedListener(null)
+    }
+
+    fun getNavigator(): Navigator {
+        return navigator
     }
 
     private val destinationChangeListener = NavController.OnDestinationChangedListener { _, destination, _ ->
